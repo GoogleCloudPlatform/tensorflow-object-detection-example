@@ -84,7 +84,7 @@ All remaining operations should be done from the root user.
 
 ```
 # cd $HOME
-# git clone https://github.com/enakai00/tensorflow-object-detection-example
+# git clone https://github.com/GoogleCloudPlatform/tensorflow-object-detection-example
 # cp -a tensorflow-object-detection-example/object_detection_app /opt/
 # cp /opt/object_detection_app/object-detection.service /etc/systemd/system/
 ```
