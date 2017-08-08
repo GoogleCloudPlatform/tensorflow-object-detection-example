@@ -30,7 +30,7 @@ First you launch a GCE instance with the following configuration.
 
 - vCPU x 8
 - Memory 8GB
-- Debian GNU/Linux 8 (jessie) as a guest OS
+- Debian GNU/Linux 9 (stretch) as a guest OS
 - Allow HTTP traffic
 - Assign a static IP address
 
