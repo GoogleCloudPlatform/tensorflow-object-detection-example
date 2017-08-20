@@ -144,29 +144,25 @@ def encode_image(image):
 
 
 def detect_objects(image_path):
-  image = Image.open(image_path)
+  image = Image.open(image_path).convert('RGB')
   boxes, scores, classes, num_detections = client.detect(image)
+  image.thumbnail((480, 480), Image.ANTIALIAS)
 
   new_images = {}
   for i in range(num_detections):
     if scores[i] < 0.7: continue
     cls = classes[i]
     if cls not in new_images.keys():
-      image = Image.open(image_path)
-      image.thumbnail((480, 480), Image.ANTIALIAS)
-      new_images[cls] = image
-
+      new_images[cls] = image.copy()
     draw_bounding_box_on_image(new_images[cls], boxes[i],
                                thickness=int(scores[i]*10)-4)
 
   result = {}
-  image = Image.open(image_path)
-  image.thumbnail((480, 480), Image.ANTIALIAS)
-  result['original'] = encode_image(image)
+  result['original'] = encode_image(image.copy())
 
-  for cls, image in new_images.iteritems():
+  for cls, new_image in new_images.iteritems():
     category = client.category_index[cls]['name']
-    result[category] = encode_image(image)
+    result[category] = encode_image(new_image)
 
   return result
 
