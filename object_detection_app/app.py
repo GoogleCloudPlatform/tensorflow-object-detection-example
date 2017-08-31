@@ -65,7 +65,7 @@ def is_image():
   def _is_image(form, field):
     if not field.data:
       raise ValidationError()
-    elif field.data.filename.split('.')[-1] not in extensions:
+    elif field.data.filename.split('.')[-1].lower() not in extensions:
       raise ValidationError()
 
   return _is_image
@@ -73,7 +73,7 @@ def is_image():
 
 class PhotoForm(Form):
   input_photo = FileField(
-      'File extension should be: %s' % ', '.join(extensions),
+      'File extension should be: %s (case-insensitive)' % ', '.join(extensions),
       validators=[is_image()])
 
 
