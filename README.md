@@ -58,7 +58,7 @@ All remaining operations should be done from the root user.
 # cd /opt
 # git clone https://github.com/tensorflow/models
 # cd models
-# protoc object_detection/protos/*.proto --python_out=.
+# protoc research/object_detection/protos/*.proto --python_out=.
 ```
 
 ## Download the pretrained model binaries
