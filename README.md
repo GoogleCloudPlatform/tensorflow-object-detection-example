@@ -57,7 +57,7 @@ All remaining operations should be done from the root user.
 ```
 # cd /opt
 # git clone https://github.com/tensorflow/models
-# cd models
+# cd models/reseach
 # protoc object_detection/protos/*.proto --python_out=.
 ```
 

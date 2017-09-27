@@ -21,7 +21,7 @@ import cStringIO
 import sys
 import tempfile
 
-MODEL_BASE = '/opt/models'
+MODEL_BASE = '/opt/models/research'
 sys.path.append(MODEL_BASE)
 sys.path.append(MODEL_BASE + '/object_detection')
 sys.path.append(MODEL_BASE + '/slim')
