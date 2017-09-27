@@ -13,8 +13,8 @@ This is an example application demonstrating how
 ## Language
 - [Python][5]
 
-[1]: https://github.com/tensorflow/models/tree/master/object_detection
-[2]: https://github.com/tensorflow/models/blob/master/object_detection/g3doc/detection_model_zoo.md
+[1]: https://github.com/tensorflow/models/tree/master/research/object_detection
+[2]: https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
 [3]: https://www.tensorflow.org/
 [4]: https://cloud.google.com/compute/
 [5]: https://python.org
