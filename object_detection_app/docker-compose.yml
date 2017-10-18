@@ -1,0 +1,14 @@
+version: "2"
+services:
+  object_detection:
+    image: object-detection-docker
+    ports:
+    - 80:80
+    volumes:
+    - ../frozen_inference_graph.pb:/opt/graph_def/frozen_inference_graph.pb
+    - ../label_map.pbtxt:/opt/models/research/object_detection/data/mscoco_label_map.pbtxt
+    environment:
+      THRESHOLD: 0.6
+      DEBUG: "True"
+      NUM_CLASSES: 1
+      PYTHONUNBUFFERED: 1
