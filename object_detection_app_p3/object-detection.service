@@ -3,7 +3,7 @@ Description=Object Detection API Demo
 After=syslog.target network.target auditd.service
 
 [Service]
-ExecStart=/opt/object_detection_app/app.py
+ExecStart=/opt/object_detection_app_p3/app.py
 ExecStop=/bin/kill -TERM $MAINPID
 
 [Install]
