@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Object Detection API</title>
+    <link rel='shortcut icon' href='favicon.ico'/>
+
+    <script language="javascript" type="text/javascript">
+      function ChangePhoto(name, img) {
+        img = typeof img !== 'undefined' ? img : "{{ result['original'] }}";
+        target = document.getElementById("label");
+        target.innerHTML = name;
+        target = document.getElementById("photo");
+        target.src = img;
+      }
+
+      function WaitDisplay() {
+        target = document.getElementById("result");
+        target.style.display="none";
+        target = document.getElementById("loading");
+        target.style.display="";
+        setTimeout(function() {
+          document.getElementById("upload").submit();}, 100);
+        }
+    </script>
+
+  </head>
+  <body>
+
+    {% from "_formhelpers.html" import render_field %}
+
+    <h1>Object Detection API</h1>
+    <h3>Upload a color photo file.</h3>
+    <div>
+      <form id="upload" method=post action={{ url_for('post') }} enctype="multipart/form-data">
+        {{ render_field(photo_form.input_photo) }}
+        <p><input type="button" onclick="WaitDisplay();" value="Upload"></p>
+      </form>
+    </div>
+
+    <hr>
+
+    <div id="result">
+      {% if result|length > 0 %}
+        <div id="label">original</div>
+        <div><img id="photo" src="{{ result['original'] }}" align="left" hspace="10" vspace="10"></div>
+        <p>
+          <a href="javascript:void(0);" onclick="ChangePhoto('original');">original</a>
+          </br>
+          {% for name, img in result.items() %}
+            {% if name != 'original' %}
+              <a href="javascript:void(0);"
+                 onclick="ChangePhoto('{{ name }}', '{{ result[ name ] }}');">{{ name }}</a>
+              </br>
+            {% endif %}
+          {% endfor %}
+        </p>
+      {% endif %}
+    </div>
+    <div id="loading" style="display:none">
+      <h2>Detecting Objects...</h2>
+    </div>
+
+  </body>
+</html>
