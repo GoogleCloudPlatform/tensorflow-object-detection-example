@@ -30,7 +30,7 @@ First you launch a GCE instance with the following configuration.
 
 - vCPU x 8
 - Memory 8GB
-- Debian GNU/Linux 9 (stretch) as a guest OS
+- Debian GNU/Linux 9 as a guest OS
 - Allow HTTP traffic
 - Assign a static IP address
 
@@ -47,9 +47,9 @@ All remaining operations should be done from the root user.
 
 ```
 # apt-get update
-# apt-get install -y protobuf-compiler python-pil python-lxml python-pip python-dev git
-# pip install Flask==0.12.2 WTForms==2.1 Flask_WTF==0.14.2 Werkzeug==0.12.2
-# pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.1.0-cp27-none-linux_x86_64.whl
+# apt-get install -y protobuf-compiler python3-pil python3-lxml python3-pip python3-dev git
+# pip install Flask==1.1.1 WTForms==2.2.1 Flask_WTF==0.14.2 Werkzeug==0.16.0
+# pip3 install tensorflow==2.0.0b1
 ```
 
 ## Install the Object Detection API library
@@ -59,25 +59,6 @@ All remaining operations should be done from the root user.
 # git clone https://github.com/tensorflow/models
 # cd models/research
 # protoc object_detection/protos/*.proto --python_out=.
-```
-
-## Download the pretrained model binaries
-
-```
-# mkdir -p /opt/graph_def
-# cd /tmp
-# for model in \
-    ssd_mobilenet_v1_coco_11_06_2017 \
-    ssd_inception_v2_coco_11_06_2017 \
-    rfcn_resnet101_coco_11_06_2017 \
-    faster_rcnn_resnet101_coco_11_06_2017 \
-    faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017
-  do \
-    curl -OL http://download.tensorflow.org/models/object_detection/$model.tar.gz
-    tar -xzf $model.tar.gz $model/frozen_inference_graph.pb
-    cp -a $model /opt/graph_def/
-  done
-# ln -sf /opt/graph_def/faster_rcnn_resnet101_coco_11_06_2017/frozen_inference_graph.pb /opt/graph_def/frozen_inference_graph.pb
 ```
 
 ## Install the demo application
@@ -91,7 +72,7 @@ All remaining operations should be done from the root user.
 
 This application provides a simple user authentication mechanism.
  You can change the username and password by modifying the following
- part in `/opt/object_detection_app/decorator.py`.
+ part in `/opt/object_detection_app_p3/decorator.py`.
 
 ```
 USERNAME = 'username'
@@ -145,21 +126,23 @@ The following example shows "cup" in the image. You can also check
 (Image from http://www.ashinari.com/en/)
 
 ## How to use different models
-There are five pretrained models that can be used by the application.
+There are pretrained models that can be used by the application.
  They have diffrent characteristics in terms of accuracy and speed.
  You can change the model used by the application with the following
- commands.
+ steps.
+
+1. Choose one of COCO-trained models from [Tensorflow detection model zoo][7]. (The "Outputs" column should be "Boxes".)
+2. Copy an URL of the model from a link on the "Model name" column.
+3. Open `/opt/object_detection_app_p3/app.py` and replace the URL in the following part.
 
 ```
-# systemctl stop object-detection
-# ln -sf /opt/graph_def/[MODEL NAME]/frozen_inference_graph.pb /opt/graph_def/frozen_inference_graph.pb
-# systemctl start object-detection
+MODEL_URL = 'http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet50_coco_2018_01_28.tar.gz'
 ```
 
-You specify one of the following models in `[MODEL NAME]`.
+4. Restart the application with the following command.
 
-- ssd_mobilenet_v1_coco_11_06_2017
-- ssd_inception_v2_coco_11_06_2017
-- rfcn_resnet101_coco_11_06_2017
-- faster_rcnn_resnet101_coco_11_06_2017
-- faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017
+```
+# systemctl restart object-detection
+```
+
+[7]: https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
