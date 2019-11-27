@@ -48,7 +48,7 @@ All remaining operations should be done from the root user.
 ```
 # apt-get update
 # apt-get install -y protobuf-compiler python3-pil python3-lxml python3-pip python3-dev git
-# pip install Flask==1.1.1 WTForms==2.2.1 Flask_WTF==0.14.2 Werkzeug==0.16.0
+# pip3 install Flask==1.1.1 WTForms==2.2.1 Flask_WTF==0.14.2 Werkzeug==0.16.0
 # pip3 install tensorflow==2.0.0b1
 ```
 
@@ -66,8 +66,9 @@ All remaining operations should be done from the root user.
 ```
 # cd $HOME
 # git clone https://github.com/GoogleCloudPlatform/tensorflow-object-detection-example
-# cp -a tensorflow-object-detection-example/object_detection_app /opt/
-# cp /opt/object_detection_app/object-detection.service /etc/systemd/system/
+# cp -a tensorflow-object-detection-example/object_detection_app_p3 /opt/
+# chmod u+x /opt/object_detection_app_p3/app.py
+# cp /opt/object_detection_app_p3/object-detection.service /etc/systemd/system/
 ```
 
 This application provides a simple user authentication mechanism.
@@ -92,20 +93,22 @@ The last command outputs the application status, as in the
  following example:
 ```
 ● object-detection.service - Object Detection API Demo
-   Loaded: loaded (/opt/object_detection_app/object-detection.service; linked)
-   Active: active (running) since Mon 2017-06-19 07:31:48 UTC; 24s ago
- Main PID: 551 (app.py)
+   Loaded: loaded (/etc/systemd/system/object-detection.service; enabled; vendor preset: enabled)
+   Active: active (running) since Wed 2019-11-27 06:03:15 UTC; 1min 56s ago
+  Process: 17451 ExecStop=/bin/kill -TERM $MAINPID (code=exited, status=0/SUCCESS)
+ Main PID: 17458 (python3)
+    Tasks: 29 (limit: 4915)
    CGroup: /system.slice/object-detection.service
-           └─551 /usr/bin/python /opt/object_detection_app/app.py
+           └─17458 python3 /opt/object_detection_app_p3/app.py
 
-Jun 19 07:31:48 object-detection-2 systemd[1]: Started Object Detection API Demo.
-Jun 19 07:32:13 object-detection-2 app.py[551]: 2017-06-19 07:32:13.456353: W tensorflow/core/platform/cpu_f...ons.
-Jun 19 07:32:13 object-detection-2 app.py[551]: 2017-06-19 07:32:13.456427: W tensorflow/core/platform/cpu_f...ons.
-Jun 19 07:32:13 object-detection-2 app.py[551]: 2017-06-19 07:32:13.456438: W tensorflow/core/platform/cpu_f...ons.
-Jun 19 07:32:13 object-detection-2 app.py[551]: 2017-06-19 07:32:13.456444: W tensorflow/core/platform/cpu_f...ons.
-Jun 19 07:32:13 object-detection-2 app.py[551]: 2017-06-19 07:32:13.456449: W tensorflow/core/platform/cpu_f...ons.
-Jun 19 07:32:13 object-detection-2 app.py[551]: * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
-Hint: Some lines were ellipsized, use -l to show in full.
+Nov 27 06:03:29 od-test2 app.py[17458]:   _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+Nov 27 06:03:29 od-test2 app.py[17458]: /usr/local/lib/python3.5/dist-packages/tensorboard/compat/
+Nov 27 06:03:29 od-test2 app.py[17458]:   _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+Nov 27 06:03:29 od-test2 app.py[17458]: /usr/local/lib/python3.5/dist-packages/tensorboard/compat/
+Nov 27 06:03:29 od-test2 app.py[17458]:   _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+Nov 27 06:03:29 od-test2 app.py[17458]: /usr/local/lib/python3.5/dist-packages/tensorboard/compat/
+Nov 27 06:03:29 od-test2 app.py[17458]:   np_resource = np.dtype([("resource", np.ubyte, 1)])
+Nov 27 06:03:29 od-test2 app.py[17458]:  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
 ```
 
 You have to wait around 60secs for the application to finish loading
