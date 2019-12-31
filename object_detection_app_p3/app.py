@@ -94,7 +94,7 @@ class ObjectDetector(object):
     model_url = MODEL_URL
     base_url = os.path.dirname(model_url)+"/"
     model_file = os.path.basename(model_url)
-    model_name = model_file.split('.')[0]
+    model_name = os.path.splitext(os.path.splitext(model_file)[0])[0]
     model_dir = tf.keras.utils.get_file(
         fname=model_name, origin=base_url + model_file, untar=True)
     model_dir = pathlib.Path(model_dir)/"saved_model"
