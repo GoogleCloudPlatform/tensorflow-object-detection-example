@@ -49,7 +49,8 @@ All remaining operations should be done from the root user.
 # apt-get update
 # apt-get install -y protobuf-compiler python3-pil python3-lxml python3-pip python3-dev git
 # pip3 install Flask==1.1.1 WTForms==2.2.1 Flask_WTF==0.14.2 Werkzeug==0.16.0
-# pip3 install tensorflow==2.0.0b1
+# python3 -m pip install -U pip
+# python3 -m pip install tensorflow==2.0.0
 ```
 
 ## Install the Object Detection API library
