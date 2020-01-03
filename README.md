@@ -48,9 +48,8 @@ All remaining operations should be done from the root user.
 ```
 # apt-get update
 # apt-get install -y protobuf-compiler python3-pil python3-lxml python3-pip python3-dev git
-# pip3 install Flask==1.1.1 WTForms==2.2.1 Flask_WTF==0.14.2 Werkzeug==0.16.0
-# python3 -m pip install -U pip
-# python3 -m pip install tensorflow==2.0.0
+# pip3 install -U pip
+# python3 -m pip install Flask==1.1.1 WTForms==2.2.1 Flask_WTF==0.14.2 Werkzeug==0.16.0 tensorflow==2.0.0
 ```
 
 ## Install the Object Detection API library
@@ -95,21 +94,22 @@ The last command outputs the application status, as in the
 ```
 ● object-detection.service - Object Detection API Demo
    Loaded: loaded (/etc/systemd/system/object-detection.service; enabled; vendor preset: enabled)
-   Active: active (running) since Wed 2019-11-27 06:03:15 UTC; 1min 56s ago
-  Process: 17451 ExecStop=/bin/kill -TERM $MAINPID (code=exited, status=0/SUCCESS)
- Main PID: 17458 (python3)
+   Active: active (running) since Thu 2020-01-02 23:55:17 UTC; 38s ago
+ Main PID: 17136 (python3)
     Tasks: 29 (limit: 4915)
    CGroup: /system.slice/object-detection.service
-           └─17458 python3 /opt/object_detection_app_p3/app.py
+           └─17136 python3 /opt/object_detection_app_p3/app.py
 
-Nov 27 06:03:29 od-test2 app.py[17458]:   _np_qint16 = np.dtype([("qint16", np.int16, 1)])
-Nov 27 06:03:29 od-test2 app.py[17458]: /usr/local/lib/python3.5/dist-packages/tensorboard/compat/
-Nov 27 06:03:29 od-test2 app.py[17458]:   _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
-Nov 27 06:03:29 od-test2 app.py[17458]: /usr/local/lib/python3.5/dist-packages/tensorboard/compat/
-Nov 27 06:03:29 od-test2 app.py[17458]:   _np_qint32 = np.dtype([("qint32", np.int32, 1)])
-Nov 27 06:03:29 od-test2 app.py[17458]: /usr/local/lib/python3.5/dist-packages/tensorboard/compat/
-Nov 27 06:03:29 od-test2 app.py[17458]:   np_resource = np.dtype([("resource", np.ubyte, 1)])
-Nov 27 06:03:29 od-test2 app.py[17458]:  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+Jan 02 23:55:32 od-test app.py[17136]: 2020-01-02 23:55:32.930129: I tensorflow/core/platform/cpu_feature_guard.cc:142] You
+Jan 02 23:55:32 od-test app.py[17136]: 2020-01-02 23:55:32.936310: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94
+Jan 02 23:55:32 od-test app.py[17136]: 2020-01-02 23:55:32.937050: I tensorflow/compiler/xla/service/service.cc:168] XLA se
+Jan 02 23:55:32 od-test app.py[17136]: 2020-01-02 23:55:32.937078: I tensorflow/compiler/xla/service/service.cc:175]   Stre
+Jan 02 23:55:40 od-test app.py[17136]:  * Serving Flask app "app" (lazy loading)
+Jan 02 23:55:40 od-test app.py[17136]:  * Environment: production
+Jan 02 23:55:40 od-test app.py[17136]:    WARNING: This is a development server. Do not use it in a production deployment.
+Jan 02 23:55:40 od-test app.py[17136]:    Use a production WSGI server instead.
+Jan 02 23:55:40 od-test app.py[17136]:  * Debug mode: off
+Jan 02 23:55:40 od-test app.py[17136]:  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
 ```
 
 You have to wait around 60secs for the application to finish loading
