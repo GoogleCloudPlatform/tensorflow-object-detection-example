@@ -1,0 +1,165 @@
+item {
+	id: 1
+	name: 'ac_button'
+}
+
+item {
+	id: 2
+	name: 'ac_dial'
+}
+
+item {
+	id: 3
+	name: 'ac_switch'
+}
+
+item {
+	id: 4
+	name: 'brake_lever'
+}
+
+item {
+	id: 5
+	name: 'brake_pedal'
+}
+
+item {
+	id: 6
+	name: 'coolent_meter'
+}
+
+item {
+	id: 7
+	name: 'cruise_button'
+}
+
+item {
+	id: 8
+	name: 'cruise_control_button'
+}
+
+item {
+	id: 9
+	name: 'dash_button'
+}
+
+item {
+	id: 10
+	name: 'dash_screen'
+}
+
+item {
+	id: 11
+	name: 'eject_button'
+}
+
+item {
+	id: 12
+	name: 'emergency_button'
+}
+
+item {
+	id: 13
+	name: 'engine_start_button'
+}
+
+item {
+	id: 14
+	name: 'fuel_meter'
+}
+
+item {
+	id: 15
+	name: 'gas_pedal'
+}
+
+item {
+	id: 16
+	name: 'gear_lever'
+}
+
+item {
+	id: 17
+	name: 'ignition_button'
+}
+
+item {
+	id: 18
+	name: 'lights_button'
+}
+
+item {
+	id: 19
+	name: 'lights_dial'
+}
+
+item {
+	id: 20
+	name: 'media_button'
+}
+
+item {
+	id: 21
+	name: 'media_screen'
+}
+
+item {
+	id: 22
+	name: 'mute_button'
+}
+
+item {
+	id: 23
+	name: 'radio'
+}
+
+item {
+	id: 24
+	name: 'radio_button'
+}
+
+item {
+	id: 25
+	name: 'radio_dial'
+}
+
+item {
+	id: 26
+	name: 'radio_switch'
+}
+
+item {
+	id: 27
+	name: 'rpm_meter'
+}
+
+item {
+	id: 28
+	name: 'sd_slot'
+}
+
+item {
+	id: 29
+	name: 'speed_meter'
+}
+
+item {
+	id: 30
+	name: 'usb_button'
+}
+
+item {
+	id: 31
+	name: 'volume_button'
+}
+
+item {
+	id: 32
+	name: 'wheel_button'
+}
+
+item {
+	id: 33
+	name: 'window_button'
+}
+

@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-MODEL_URL = 'http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet50_coco_2018_01_28.tar.gz'
 
 import base64
 import io
@@ -24,11 +23,17 @@ import pathlib
 import sys
 import tempfile
 
+MODEL_URL = 'http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet50_coco_2018_01_28.tar.gz'
+
 MODEL_BASE = '/opt/models/research'
 sys.path.append(MODEL_BASE)
 sys.path.append(MODEL_BASE + '/object_detection')
 sys.path.append(MODEL_BASE + '/slim')
-PATH_TO_LABELS = MODEL_BASE + '/object_detection/data/mscoco_label_map.pbtxt'
+PATH_TO_LABELS = '/opt/object_detection/label_map_v2.pbtxt'
+# PATH_TO_LABELS = MODEL_BASE + '/object_detection/data/mscoco_label_map.pbtxt'
+
+if not os.path.isfile(PATH_TO_LABELS):
+  raise Exception(f"No label map found in {PATH_TO_LABELS}")
 
 from decorator import requires_auth
 from flask import Flask
@@ -91,16 +96,21 @@ class ObjectDetector(object):
         label_map, max_num_classes=90, use_display_name=True)
     self.category_index = label_map_util.create_category_index(categories)
 
-    model_url = MODEL_URL
-    base_url = os.path.dirname(model_url)+"/"
-    model_file = os.path.basename(model_url)
-    model_name = os.path.splitext(os.path.splitext(model_file)[0])[0]
-    model_dir = tf.keras.utils.get_file(
-        fname=model_name, origin=base_url + model_file, untar=True)
-    model_dir = pathlib.Path(model_dir)/"saved_model"
+    # model_url = MODEL_URL
+    # base_url = os.path.dirname(model_url)+"/"
+    # model_file = os.path.basename(model_url)
+    # model_name = os.path.splitext(os.path.splitext(model_file)[0])[0]
+    # model_dir = tf.keras.utils.get_file(
+    #     fname=model_name, origin=base_url + model_file, untar=True)
+    # model_dir = pathlib.Path(model_dir)/"saved_model"
+    model_dir = "/opt/object_detection/my_model_v2/saved_model"
 
-    model = tf.saved_model.load(str(model_dir))
-    model = model.signatures['serving_default']
+    if not os.path.isdir(model_dir):
+      raise Exception(f"Model dir {model_dir} does not exist or cannot be found.")
+
+    model = tf.saved_model.load(model_dir)
+    # model = tf.saved_model.load(str(model_dir))
+    # model = model.signatures['serving_default']
     self.model = model
 
   def _load_image_into_numpy_array(self, image):
