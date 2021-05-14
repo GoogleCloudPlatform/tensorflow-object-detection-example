@@ -16,20 +16,37 @@
 # limitations under the License.
 
 
+
 import base64
 import io
 import os
 import pathlib
 import sys
 import tempfile
+import argparse
 
-MODEL_URL = 'http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet50_coco_2018_01_28.tar.gz'
+parser = argparse.ArgumentParser(description='Deploy control element detection app.')
+parser.add_argument("-m", "--model-path", default='my_model', help="Path to model directory.")
+parser.add_argument("-l", "--label-path", default='label_map.pbtxt', help="Path to label map file.")
+parser.add_argument("-t", "--threshold", default=0.5, type=float, help="Object detection threshold")
 
+
+BASE_DIR="/opt/object_detection"
+args = parser.parse_args()
+
+# MODEL_URL = 'http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet50_coco_2018_01_28.tar.gz'
+THRESHOLD=args.threshold
+if THRESHOLD > 1:
+  raise Exception("Threshold cannot be larger than 1.0")
+print(f"Model path is {args.model_path}")
+print(f"Label map path is {args.label_path}")
+print(f"Control element detection threshold: {THRESHOLD}")
 MODEL_BASE = '/opt/models/research'
 sys.path.append(MODEL_BASE)
 sys.path.append(MODEL_BASE + '/object_detection')
 sys.path.append(MODEL_BASE + '/slim')
-PATH_TO_LABELS = '/opt/object_detection/label_map_v2.pbtxt'
+# PATH_TO_LABELS = '/opt/object_detection/label_map_v2.pbtxt'
+PATH_TO_LABELS = f"{BASE_DIR}/{args.label_path}"
 # PATH_TO_LABELS = MODEL_BASE + '/object_detection/data/mscoco_label_map.pbtxt'
 
 if not os.path.isfile(PATH_TO_LABELS):
@@ -103,7 +120,7 @@ class ObjectDetector(object):
     # model_dir = tf.keras.utils.get_file(
     #     fname=model_name, origin=base_url + model_file, untar=True)
     # model_dir = pathlib.Path(model_dir)/"saved_model"
-    model_dir = "/opt/object_detection/my_model_v2/saved_model"
+    model_dir = f"{BASE_DIR}/{args.model_path}/saved_model"
 
     if not os.path.isdir(model_dir):
       raise Exception(f"Model dir {model_dir} does not exist or cannot be found.")
@@ -159,7 +176,7 @@ def detect_objects(image_path):
 
   new_images = {}
   for i in range(num_detections):
-    if scores[i] < 0.7: continue
+    if scores[i] < THRESHOLD: continue
     cls = classes[i]
     if cls not in new_images.keys():
       new_images[cls] = image.copy()

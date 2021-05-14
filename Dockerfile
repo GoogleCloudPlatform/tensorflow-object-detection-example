@@ -34,4 +34,4 @@ RUN cd models/research && protoc object_detection/protos/*.proto --python_out=.
 # APPLICATION
 ADD . /opt/object_detection/
 
-CMD ["python", "/opt/object_detection/object_detection_app_p3/app.py"] 
+ENTRYPOINT ["python", "/opt/object_detection/object_detection_app_p3/app.py"] 
