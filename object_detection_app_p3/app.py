@@ -36,8 +36,8 @@ args = parser.parse_args()
 
 # MODEL_URL = 'http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet50_coco_2018_01_28.tar.gz'
 THRESHOLD=args.threshold
-if THRESHOLD > 1:
-  raise Exception("Threshold cannot be larger than 1.0")
+if THRESHOLD > 1 or THRESHOLD < 0:
+  raise Exception("Threshold value must be between 0.0 and 1.0")
 print(f"Model path is {args.model_path}")
 print(f"Label map path is {args.label_path}")
 print(f"Control element detection threshold: {THRESHOLD}")
@@ -172,7 +172,7 @@ def encode_image(image):
 def detect_objects(image_path):
   image = Image.open(image_path).convert('RGB')
   boxes, scores, classes, num_detections = client.detect(image)
-  image.thumbnail((480, 480), Image.ANTIALIAS)
+  image.thumbnail((640, 640), Image.ANTIALIAS)
 
   new_images = {}
   for i in range(num_detections):
@@ -187,7 +187,7 @@ def detect_objects(image_path):
   result['original'] = encode_image(image.copy())
 
   for cls, new_image in new_images.items():
-    category = client.category_index[cls]['name']
+    category = client.category_index[cls]['name'].replace('_', ' ').upper()
     result[category] = encode_image(new_image)
 
   return result

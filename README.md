@@ -32,7 +32,7 @@ From this repository home directory, run:
 sudo -i
 ```
 You should now be using a root user, which allows you to invoke docker commands.
-Now run the following and replace parameters as needed:
+Now run the following and replace parameters as needed (new models and label maps must be copied to repository before run):
 ```
 source setup.sh <MODEL_PATH> <LABEL_PATH> <DETECTION_THRESHOLD>
 ```
