@@ -16,7 +16,6 @@
 # limitations under the License.
 
 
-
 import base64
 import io
 import os
@@ -24,6 +23,7 @@ import pathlib
 import sys
 import tempfile
 import argparse
+import json
 
 parser = argparse.ArgumentParser(description='Deploy control element detection app.')
 parser.add_argument("-m", "--model-path", default='my_model', help="Path to model directory.")
@@ -67,9 +67,14 @@ from utils import label_map_util
 from werkzeug.datastructures import CombinedMultiDict
 from wtforms import Form
 from wtforms import ValidationError
+from category import Category
+
+with open(f"{BASE_DIR}/category_description.json", 'r') as details:
+  category_description = json.load(details)
 
 # Patch the location of gfile
 tf.gfile = tf.io.gfile
+
 
 
 app = Flask(__name__)
@@ -183,14 +188,20 @@ def detect_objects(image_path):
     draw_bounding_box_on_image(new_images[cls], boxes[i],
                                thickness=int(scores[i]*10)-4)
 
-  result = {}
-  result['original'] = encode_image(image.copy())
+  # result = {}
+  # result['original'] = encode_image(image.copy())
+  results = []
+  original_category = Category('original', encode_image(image.copy()))
+  results.append(original_category)
 
   for cls, new_image in new_images.items():
-    category = client.category_index[cls]['name'].replace('_', ' ').upper()
-    result[category] = encode_image(new_image)
-
-  return result
+    name = client.category_index[cls]['name']
+    new_category = Category(name, encode_image(new_image))
+    new_category.description = category_description.get(name)
+    results.append(new_category)
+    # result[category] = encode_image(new_image)
+  
+  return results
 
 
 @app.route('/')
@@ -207,6 +218,9 @@ def post():
       form.input_photo.data.save(temp)
       temp.flush()
       result = detect_objects(temp.name)
+
+      for res in result:
+        print(f"name: {res.name}, details: {res.description}")
 
     photo_form = PhotoForm(request.form)
     return render_template('upload.html',
