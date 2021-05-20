@@ -1,0 +1,41 @@
+
+    body {
+    font-family: sans-serif;
+    color: #333;
+    line-height: 1.5;
+    height: 100vh;
+    position: relative;
+    justify-content: center;
+    background: linear-gradient(to top left, #21e6e6, #d4fc8a);
+  }  
+
+  h1 {
+    font-size: 37px;
+    text-align: center;
+
+    
+  }
+  h3{
+    font-size: 20px;
+
+  }
+  h2{
+    color:rgb(236, 69, 97);
+  }
+ 
+  #photo{
+    width: 1000px;
+    border: 1px solid black;
+  }
+  #description{
+    text-align:end ;
+    font-size: small;
+
+
+  }
+  #label{
+    font-size: 25px;
+    font-weight: bold;
+  }
+ 
+  

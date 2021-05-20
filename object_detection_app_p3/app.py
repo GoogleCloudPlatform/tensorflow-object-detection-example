@@ -77,7 +77,8 @@ tf.gfile = tf.io.gfile
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
+
 
 
 @app.before_request
@@ -177,7 +178,7 @@ def encode_image(image):
 def detect_objects(image_path):
   image = Image.open(image_path).convert('RGB')
   boxes, scores, classes, num_detections = client.detect(image)
-  image.thumbnail((640, 640), Image.ANTIALIAS)
+  image.thumbnail((860, 860), Image.ANTIALIAS)
 
   new_images = {}
   for i in range(num_detections):
@@ -219,8 +220,8 @@ def post():
       temp.flush()
       result = detect_objects(temp.name)
 
-      for res in result:
-        print(f"name: {res.name}, details: {res.description}")
+      # for res in result:
+      #   print(f"name: {res.name}, details: {res.description}")
 
     photo_form = PhotoForm(request.form)
     return render_template('upload.html',

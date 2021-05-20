@@ -2,14 +2,17 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>Object Detection API</title>
-    <link rel='shortcut icon' href='favicon.ico'/>
-
+    <title>Car Buttons Detection</title>
+    <!-- <link rel='shortcut icon' href='favicon.ico'/> -->
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
     <script language="javascript" type="text/javascript">
-      function ChangePhoto(name, img) {
-        img = typeof img !== 'undefined' ? img : "{{ result['original'] }}";
+      function ChangePhoto(name, img,description) {
+        img = typeof img !== 'undefined' ? img : "{{ result['original']}}";
+      
         target = document.getElementById("label");
         target.innerHTML = name;
+        target = document.getElementById("description");
+        target.innerHTML = description;
         target = document.getElementById("photo");
         target.src = img;
       }
@@ -29,8 +32,9 @@
 
     {% from "_formhelpers.html" import render_field %}
 
-    <h1>Object Detection API</h1>
-    <h3>Upload a color photo file.</h3>
+    <h1>Control element detection for vehicles</h1>
+    <h2>Allow us to help you find more information about your vehicle!</h2>
+    <h3>Upload a color photo file of your vehicle's dashboard.</h3>
     <div>
       <form id="upload" method=post action={{ url_for('post') }} enctype="multipart/form-data">
         {{ render_field(photo_form.input_photo) }}
@@ -44,13 +48,14 @@
       {% if result|length > 0 %}
         <div id="label">original</div>
         <div><img id="photo" src="{{ result[0].image }}" align="left" hspace="10" vspace="10"></div>
+        <div id="description" src="{{ result[0].description }}" align="right" hspace="10" vspace="10"></div>
         <p>
-          <a href="javascript:void(0);" onclick="ChangePhoto('original');">original</a>
+          <a href="javascript:void(0);" onclick="ChangePhoto('{{result[0].name}}','{{ result[0].image }}',' ');">original</a>
           </br>
           {% for category in result %}
             {% if category.name != 'original' %}
               <a href="javascript:void(0);"
-                 onclick="ChangePhoto('{{ category.name }}', '{{ category.image }}');">{{ category.name }}</a>
+                 onclick="ChangePhoto('{{ category.name }}', '{{ category.image }}','{{ category.description }}');">{{ category.name }}</a>
               </br>
             {% endif %}
           {% endfor %}
@@ -58,7 +63,7 @@
       {% endif %}
     </div>
     <div id="loading" style="display:none">
-      <h2>Detecting Objects...</h2>
+      <h2>Detecting Buttons...</h2>
     </div>
 
   </body>
