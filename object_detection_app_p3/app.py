@@ -34,7 +34,6 @@ parser.add_argument("-t", "--threshold", default=0.5, type=float, help="Object d
 BASE_DIR="/opt/object_detection"
 args = parser.parse_args()
 
-# MODEL_URL = 'http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet50_coco_2018_01_28.tar.gz'
 THRESHOLD=args.threshold
 if THRESHOLD > 1 or THRESHOLD < 0:
   raise Exception("Threshold value must be between 0.0 and 1.0")
@@ -45,9 +44,8 @@ MODEL_BASE = '/opt/models/research'
 sys.path.append(MODEL_BASE)
 sys.path.append(MODEL_BASE + '/object_detection')
 sys.path.append(MODEL_BASE + '/slim')
-# PATH_TO_LABELS = '/opt/object_detection/label_map_v2.pbtxt'
 PATH_TO_LABELS = f"{BASE_DIR}/{args.label_path}"
-# PATH_TO_LABELS = MODEL_BASE + '/object_detection/data/mscoco_label_map.pbtxt'
+PATH_TO_DETAILS_FILE = f"{BASE_DIR}/category_description.json"
 
 if not os.path.isfile(PATH_TO_LABELS):
   raise Exception(f"No label map found in {PATH_TO_LABELS}")
@@ -119,21 +117,12 @@ class ObjectDetector(object):
         label_map, max_num_classes=90, use_display_name=True)
     self.category_index = label_map_util.create_category_index(categories)
 
-    # model_url = MODEL_URL
-    # base_url = os.path.dirname(model_url)+"/"
-    # model_file = os.path.basename(model_url)
-    # model_name = os.path.splitext(os.path.splitext(model_file)[0])[0]
-    # model_dir = tf.keras.utils.get_file(
-    #     fname=model_name, origin=base_url + model_file, untar=True)
-    # model_dir = pathlib.Path(model_dir)/"saved_model"
     model_dir = f"{BASE_DIR}/{args.model_path}/saved_model"
 
     if not os.path.isdir(model_dir):
       raise Exception(f"Model dir {model_dir} does not exist or cannot be found.")
 
     model = tf.saved_model.load(model_dir)
-    # model = tf.saved_model.load(str(model_dir))
-    # model = model.signatures['serving_default']
     self.model = model
 
   def _load_image_into_numpy_array(self, image):
@@ -189,8 +178,6 @@ def detect_objects(image_path):
     draw_bounding_box_on_image(new_images[cls], boxes[i],
                                thickness=int(scores[i]*10)-4)
 
-  # result = {}
-  # result['original'] = encode_image(image.copy())
   results = []
   original_category = Category('original', encode_image(image.copy()))
   results.append(original_category)

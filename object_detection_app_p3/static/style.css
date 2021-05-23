@@ -22,16 +22,22 @@
   h2{
     color:rgb(236, 69, 97);
   }
- 
+
+
+  #photoframe{
+    width: 220px;
+    height: 180px;
+    
+  } 
+
   #photo{
-    width: 1000px;
-    border: 1px solid black;
-  }
+    border:2px solid black;
+    
+  } 
   #description{
     text-align:end ;
-    font-size: small;
-
-
+    font-size: medium;
+    
   }
   #label{
     font-size: 25px;
