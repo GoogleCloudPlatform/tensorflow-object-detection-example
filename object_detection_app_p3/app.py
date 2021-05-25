@@ -201,6 +201,7 @@ def upload():
 @app.route('/post', methods=['GET', 'POST'])
 def post():
   form = PhotoForm(CombinedMultiDict((request.files, request.form)))
+  print(request.files)
   if request.method == 'POST' and form.validate():
     with tempfile.NamedTemporaryFile() as temp:
       form.input_photo.data.save(temp)
