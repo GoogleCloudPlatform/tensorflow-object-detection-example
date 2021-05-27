@@ -29,11 +29,8 @@ parser = argparse.ArgumentParser(description='Deploy control element detection a
 parser.add_argument("-m", "--model-path", default='my_model', help="Path to model directory.")
 parser.add_argument("-l", "--label-path", default='label_map.pbtxt', help="Path to label map file.")
 parser.add_argument("-t", "--threshold", default=0.5, type=float, help="Object detection threshold")
-
-
 BASE_DIR="/opt/object_detection"
 args = parser.parse_args()
-
 THRESHOLD=args.threshold
 if THRESHOLD > 1 or THRESHOLD < 0:
   raise Exception("Threshold value must be between 0.0 and 1.0")
@@ -121,7 +118,6 @@ class ObjectDetector(object):
 
     if not os.path.isdir(model_dir):
       raise Exception(f"Model dir {model_dir} does not exist or cannot be found.")
-
     model = tf.saved_model.load(model_dir)
     self.model = model
 
@@ -171,7 +167,7 @@ def detect_objects(image_path):
 
   new_images = {}
   for i in range(num_detections):
-    if scores[i] < THRESHOLD: continue
+    if scores[i] < args.threshold : continue
     cls = classes[i]
     if cls not in new_images.keys():
       new_images[cls] = image.copy()
@@ -216,6 +212,15 @@ def post():
                            photo_form=photo_form, result=result)
   else:
     return redirect(url_for('upload'))
+
+@app.route('/trsvalue', methods=['GET','POST'])
+def trsvalue():
+  if request.method == 'POST':
+    x=request.form['tt']
+    #print(args)
+    args.threshold=float(x)
+    #print(args)
+  return redirect(url_for('upload'))
 
 
 client = ObjectDetector()
