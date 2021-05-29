@@ -63,7 +63,7 @@
           </br>
           {% for category in result %}
             {% if category.name != 'original' %}
-              <a href="javascript:void(0);"
+              <a href="javascript:void(0);" id="allLabels"
                  onclick="ChangePhoto('{{ category.name }}', '{{ category.image }}','{{ category.description }}');">{{ category.name }}</a>
               </br>
             {% endif %}

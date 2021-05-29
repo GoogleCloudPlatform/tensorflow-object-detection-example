@@ -197,7 +197,6 @@ def upload():
 @app.route('/post', methods=['GET', 'POST'])
 def post():
   form = PhotoForm(CombinedMultiDict((request.files, request.form)))
-  print(request.files)
   if request.method == 'POST' and form.validate():
     with tempfile.NamedTemporaryFile() as temp:
       form.input_photo.data.save(temp)
@@ -217,10 +216,12 @@ def post():
 def trsvalue():
   if request.method == 'POST':
     x=request.form['tt']
+    if x!='':
+      args.threshold=float(x)
     #print(args)
-    args.threshold=float(x)
-    #print(args)
+
   return redirect(url_for('upload'))
+
 
 
 client = ObjectDetector()
